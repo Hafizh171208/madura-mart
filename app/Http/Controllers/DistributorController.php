@@ -25,6 +25,9 @@ class DistributorController extends Controller
     public function create()
     {
         //
+        return view('distributor.create', [
+            'title' => 'Distributor'
+        ]);
     }
 
     /**
