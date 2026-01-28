@@ -310,4 +310,9 @@
         </div>
       </footer>
     </div>
+    <script>
+      @if (session('simpan'))
+        swal("Success", "{{ session('simpan') }}", "success");
+      @endif
+    </script>
 @endsection

@@ -36,6 +36,9 @@ class DistributorController extends Controller
     public function store(Request $request)
     {
         //
+        $data = $request->only(['nama_distributor', 'alamat_distributor', 'notelepon_distributor']);
+        Distributor::create($data);
+        return redirect()->route('distributor.index')->with('simpan', 'The new Distributor Data, ' . $request->nama_distributor . ', has been succesfully saved');
     }
 
     /**
