@@ -36,6 +36,9 @@
   <!-- Nepcha Analytics (nepcha.com) -->
   <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
   <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+  <!-- Sweet Alert -->
+   <script src="{{asset('be/assets/js/plugins/sweetalert.js')}}"></script>
+   <link rel="stylesheet" href="{{asset('be/assets/css/sweetalert.css')}}">
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -133,7 +136,7 @@
   <script src="{{asset('be/assets/js/plugins/perfect-scrollbar.min.js')}}"></script>
   <script src="{{asset('be/assets/js/plugins/smooth-scrollbar.min.js')}}"></script>
   <script src="{{asset('be/assets/js/plugins/chartjs.min.js')}}"></script>
-  <script src="{{asset('be/assets/js/sweetalert.min.js')}}"></script>
+
   <script>
     var ctx = document.getElementById("chart-bars").getContext("2d");
 
