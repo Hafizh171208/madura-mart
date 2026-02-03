@@ -2,7 +2,7 @@
 @section('menu')
     @include('be.menu')
 @endsection
-@section('distributor')
+@section('products')
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur"
         navbar-scroll="true">
         <div class="container-fluid py-1 px-3">
@@ -140,32 +140,49 @@
                 <div class="col-12">
                     <div class="card mb-4">
                         <div class="card-header pb-0">
-                            <h6>Edit {{ $title }} Data</h6>
+                            <h6>Add New {{ $title }} Data</h6>
                         </div>
                         <div class="card-body px-0 pt-0 pb-2">
-                            <form action="{{ route('distributor.update', $data->id) }}" method="POST" id="frm">
-                                @method('PUT')
+                            <form action="{{ route('products.store') }}" method="POST" id="frm" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row ms-3 me-3">
-                                    <div class="col-12">
+                                    <div class="col-lg-6 col-md-6">
                                         <div class="mb-3 px-3 pt-3">
-                                            <label for="name_distributor" class="form-label">Nama Distributor</label>
-                                            <input type="text" class="form-control" id="name_distributor" name="name_distributor" placeholder="Enter Distributor Name" value="{{ $data->name_distributor }}" required>
+                                            <label for="kd_barang" class="form-label">Code</label>
+                                            <input type="text" class="form-control" id="kd_barang" name="kd_barang" placeholder="Enter Product Code" value="{{ old('kd_barang') }}" maxlength="15">
                                         </div>
                                         <div class="mb-3 px-3 pt-3">
-                                            <label for="alamat_distributor" class="form-label">Alamat Distributor</label>
-                                            <textarea type="text" class="form-control" id="alamat_distributor" name="alamat_distributor" rows="5" placeholder="Enter Address" required>{{ $data->alamat_distributor }}</textarea>
+                                            <label for="nama_barang" class="form-label">Name</label>
+                                            <input type="text" class="form-control" id="nama_barang" name="nama_barang" placeholder="Enter Product Name" value="{{ old('nama_barang') }}" maxlength="50">
                                         </div>
                                         <div class="mb-3 px-3 pt-3">
-                                            <label for="notelp_distributor" class="form-label">No. Telp</label>
-                                            <input type="text" class="form-control" id="notelp_distributor" name="notelp_distributor" placeholder="Enter Phone Number" value="{{ $data->notelp_distributor }}" required>
+                                            <label for="jenis_barang" class="form-label">Type</label>
+                                            <input type="text" class="form-control" id="jenis_barang" name="jenis_barang" placeholder="Enter Product Type" value="{{ old('jenis_barang') }}" maxlength="50">
+                                        </div>
+                                        <div class="mb-3 px-3 pt-3">
+                                            <label for="tgl_expired" class="form-label">Expired Date</label>
+                                            <input type="date" class="form-control" id="tgl_expired" name="tgl_expired" placeholder="Enter Expired Date" value="{{ old('tgl_expired') }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="mb-3 px-3 pt-3">
+                                            <label for="harga_jual" class="form-label">Price</label>
+                                            <input type="text" class="form-control" id="harga_jual" name="harga_jual" placeholder="Enter Product Price" value="{{ old('harga_jual') ? old(harga_jual) : 0 }}" readonly>
+                                        </div>
+                                        <div class="mb-3 px-3 pt-3">
+                                            <label for="stok" class="form-label">Stock</label>
+                                            <input type="text" class="form-control" id="stok" name="stok" placeholder="Enter Product Stock" value="{{ old('stok')?? old('stok') ? old(stok) : 0 }}" readonly>
+                                        </div>
+                                        <div class="mb-3 px-3 pt-3">
+                                            <label for="foto_barang" class="form-label">Image</label>
+                                            <input type="file" class="form-control" id="foto_barang" name="foto_barang" placeholder="Enter Product Image" value="{{ old('foto_barang') }}">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row ms-3 me-3 mt-3">
                                     <div class="col-12">
                                         <div class="px-3 pb-3 text-end">
-                                            <a href="{{ route('distributor.index') }}" class="btn bg-gradient-secondary me-3">Cancel</a>
+                                            <a href="{{ route('products.index') }}" class="btn bg-gradient-secondary me-3">Cancel</a>
                                             <button type="button" id="simpan" class="btn bg-gradient-primary"> Save New {{ $title }} Data </button>
                                         </div>
                                     </div>
@@ -217,25 +234,39 @@
             <script>
                 let btnSimpan = document.getElementById('simpan');
                 let frm = document.getElementById('frm');
-                let name_distributor = document.getElementById('name_distributor');
-                let alamat_distributor = document.getElementById('alamat_distributor');
-                let notelp_distributor = document.getElementById('notelp_distributor');
+                let kd_barang = document.getElementById('kd_barang');
+                let nama_barang = document.getElementById('nama_barang');
+                let jenis_barang = document.getElementById('jenis_barang');
+                let tgl_expired = document.getElementById('tgl_expired');
+                let harga_jual = document.getElementById('harga_jual');
+                let stok = document.getElementById('stok');
+                let foto_barang = document.getElementById('foto_barang');
 
                 btnSimpan.addEventListener('click', function() {
                     
-                    if(name_distributor.value.trim() === ''){
-                        name_distributor.focus();
-                        swal("Invalid!", "Distibutor Nama cannot be empty", "error");
+                    if(kd_barang.value.trim() === ''){
+                        kd_barang.focus();
+                        swal("Invalid!", "Product Code cannot be empty", "error");
                         return;
                     }
-                    else if(alamat_distributor.value.trim() === ''){
-                        alamat_distributor.focus();
-                        swal("Invalid!", "Distibutor Address cannot be empty", "error");
+                    else if(nama_barang.value.trim() === ''){
+                        nama_barang.focus();
+                        swal("Invalid!", "Product Name cannot be empty", "error");
                         return;
                     }
-                    else if(notelp_distributor.value.trim() === ''){
-                        notelp_distributor.focus();
-                        swal("Invalid!", "Distibutor Phone Number cannot be empty", "error");
+                    else if(jenis_barang.value.trim() === ''){
+                        jenis_barang.focus();
+                        swal("Invalid!", "Product Type cannot be empty", "error");
+                        return;
+                    }
+                    else if(tgl_expired.value.trim() === ''){
+                        tgl_expired.focus();
+                        swal("Invalid!", "Expired Date cannot be empty", "error");
+                        return;
+                    }
+                    else if(foto_barang.value.trim() === ''){
+                        foto_barang.focus();
+                        swal("Invalid!", "Product Image cannot be empty", "error");
                         return;
                     }
                     else{

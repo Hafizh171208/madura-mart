@@ -4,7 +4,7 @@
     @include('be.menu')
 @endsection
 
-@section('distributor')
+@section('products')
     {{-- BAGIAN NAVBAR (LENGKAP SEPERTI CODE 1) --}}
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true">
         <div class="container-fluid py-1 px-3">
@@ -98,42 +98,71 @@
                 <div class="card mb-4">
                     <div class="card-header pb-0 d-flex justify-content-between align-items-center">
                         <h6>{{ $title }} Data</h6>
-                        <a href="{{ route('distributor.create') }}" class="btn btn-primary btn-sm mb-0"> Add New {{ $title }}</a>
+                        <a href="{{ route('products.create') }}" class="btn btn-primary btn-sm mb-0"> Add New {{ $title }}</a>
                     </div>
                     
                     <div class="card-body px-0 pt-0 pb-2">
-                        <div class="table-responsive p-0">
+                        <div class="table-responsive p-0 ">
                             <table class="table align-items-center mb-0">
                                 <thead>
                                     <tr>
-                                        <th class="text-uppercase text-primary text-xs font-weight-bolder opacity-7">No.</th>
-                                        <th class="text-uppercase text-primary text-xs font-weight-bolder opacity-7">Action</th>
-                                        <th class="text-uppercase text-primary text-xs font-weight-bolder opacity-7">Distributor Name</th>
-                                        <th class="text-uppercase text-primary text-xs font-weight-bolder opacity-7">Address</th>
-                                        <th class="text-uppercase text-primary text-xs font-weight-bolder opacity-7">Phone Number</th>
+                                        <th class="text-center text-uppercase text-primary text-xs font-weight-bolder opacity-7">No.</th>
+                                        <th class="text-center text-uppercase text-primary text-xs font-weight-bolder opacity-7">Code</th>
+                                        <th class="text-center text-uppercase text-primary text-xs font-weight-bolder opacity-7">Name</th>
+                                        <th class="text-center text-uppercase text-primary text-xs font-weight-bolder opacity-7">Type</th>
+                                        <th class="text-center text-uppercase text-primary text-xs font-weight-bolder opacity-7">Expiration Date</th>
+                                        <th class="text-center text-uppercase text-primary text-xs font-weight-bolder opacity-7">Price</th>
+                                        <th class="text-center text-uppercase text-primary text-xs font-weight-bolder opacity-7">Stock</th>
+                                        <th class="text-center text-uppercase text-primary text-xs font-weight-bolder opacity-7">Image</th>
+                                        <th class="text-center text-uppercase text-primary text-xs font-weight-bolder opacity-7">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($datas as $nmr => $data)
-                                        <tr>
-                                            <td class="text-xs font-weight-bold mb-0 ps-4">{{ $nmr + 1 . '.' }}</td>
-                                            <td class="text-xs font-weight-bold mb-0">
-                                                <a href="{{ route('distributor.edit', $data->id) }}" class="me-2">
-                                                    <img src="{{ asset('be/assets/img/icon/edit.png') }}" alt="edit" width="20">
+                                    <tr>
+                                        <td class="text-center text-xs font-weight-bold">{{ $nmr + 1 }}.</td>
+                                        <td class="text-center text-xs font-weight-bold">{{ $data->kd_barang }}</td>
+                                        <td class="text-center text-xs font-weight-bold">{{ $data->nama_barang }}</td>
+                                        <td class="text-center text-xs font-weight-bold">{{ $data->jenis_barang }}</td>
+                                        <td class="text-center text-xs font-weight-bold">{{ $data->tgl_expired }}</td>
+                                        <td class="text-center text-xs font-weight-bold">
+                                            Rp. {{ number_format($data->harga_jual, 0, ',', '.') }}
+                                        </td>
+                                        <td class="text-center text-xs font-weight-bold">{{ $data->stok }}</td>
+                                        <td class="text-center">
+                                            <img src="{{ asset('storage/' . $data->foto_barang) }}"
+                                                class="img-thumbnail cursor-pointer" alt="img product" width="50" data-bs-toggle="modal" data-bs-target="#staticBackdrop{{ $data->id }}">
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="d-flex justify-content-center gap-2">
+                                                <a href="{{ route('products.edit', $data->id) }}">
+                                                    <img src="{{ asset('be/assets/img/icon/edit.png') }}" width="18">
                                                 </a>
-                                                <form action="{{ route('distributor.destroy', $data->id) }}" method="POST" class="d-inline">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="border-0 bg-transparent p-0" onclick="hapus(event, this)">
-                                                        <img src="{{ asset('be/assets/img/icon/trash.png') }}" alt="delete" width="20">
-                                                    </button>
-                                                </form>
-                                            </td>
-                                            
-                                            <td class="text-xs font-weight-bold mb-0">{{ $data->name_distributor }}</td>
-                                            <td class="text-xs font-weight-bold mb-0">{{ $data->alamat_distributor }}</td>
-                                            <td class="text-xs font-weight-bold mb-0">{{ $data->notelp_distributor }}</td>
-                                        </tr>
+                                                <a href="#" onclick="hapus(event, this)"
+                                                data-url="{{ route('products.destroy', $data->id) }}">
+                                                    <img src="{{ asset('be/assets/img/icon/trash.png') }}" width="18">
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {{-- Modal --}} 
+                                    <div class="modal fade" id="staticBackdrop{{ $data->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel{{ $data->id }}" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="staticBackdropLabel">{{ $data->nama_barang }}</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body text-center">
+                                                    <img src="{{ asset('storage/' . $data->foto_barang) }}"
+                                                        class="img-thumbnail cursor-pointer" alt="img product" width="75%">
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     @endforeach
                                 </tbody>
                             </table>
