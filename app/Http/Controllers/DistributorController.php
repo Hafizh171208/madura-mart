@@ -99,4 +99,3 @@ class DistributorController extends Controller
         return redirect()->route('distributor.index')->with('hapus', 'The Distributor data, ' . $distributor->name_distributor . ' has been successfully deleted!');
     }
 }
-    

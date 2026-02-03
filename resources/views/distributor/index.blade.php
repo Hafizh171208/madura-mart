@@ -127,13 +127,12 @@
                                                 <form action="{{ route('distributor.destroy', $data->id) }}" method="POST" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="border-0 bg-transparent p-0" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                                                    <button type="submit" class="border-0 bg-transparent p-0" onclick="hapus(event, this)">
                                                         <img src="{{ asset('be/assets/img/icon/trash.png') }}" alt="delete" width="20">
                                                     </button>
                                                 </form>
                                             </td>
-                                            {{-- END BAGIAN DIPERBAIKI --}}
-
+                                            
                                             <td class="text-xs font-weight-bold mb-0">{{ $data->name_distributor }}</td>
                                             <td class="text-xs font-weight-bold mb-0">{{ $data->alamat_distributor }}</td>
                                             <td class="text-xs font-weight-bold mb-0">{{ $data->notelp_distributor }}</td>
@@ -176,22 +175,52 @@
             </div>
         </footer>
     </div>
-
-    {{-- SCRIPT SWEETALERT --}}
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <form action="" method="POST" id="frm">
+        @csrf
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         @if (session('simpan'))
-            swal("Good Job!", "{{ session('simpan') }}", "success");
+            Swal.fire({
+                icon: 'success',
+                title: 'Good Job!',
+                text: '{{ session('simpan') }}'
+            });
         @endif
     </script>
     <script>
         @if (session('update'))
-            swal("Good Job!", "{{ session('update') }}", "success");
+            Swal.fire({
+                icon: 'success',
+                title: 'Good Job!',
+                text: '{{ session('update') }}'
+            });
         @endif
     </script>
     <script>
+        function hapus(e, el) {
+            e.preventDefault();
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Once deleted, you will not be able to recover this data!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonClass: 'btn-danger',
+                confirmButtonText: 'Yes, delete it!',
+                closeOnConfirm: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    el.closest("form").submit();
+                }
+            });
+        }
+    </script>
+    <script>
         @if (session('hapus'))
-            swal("Good Job!", "{{ session('hapus') }}", "success");
+            Swal.fire({
+                icon: 'success',
+                title: 'Deleted!',
+                text: '{{ session('hapus') }}'
+            });
         @endif
     </script>
 @endsection
