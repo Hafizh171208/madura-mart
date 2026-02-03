@@ -13,9 +13,7 @@ use App\Http\Controllers\DeliveryController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReportController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::redirect('/', '/dashboard');
 
 Route::resource('dashboard', DashboardController::class);
 Route::resource('distributor', DistributorController::class);
