@@ -38,12 +38,18 @@ class DistributorController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->only(['name_distributor', 'alamat_distributor', 'notelp_distributor']);
-        Distributor::create($data);
-        return redirect()->route('distributor.index')->with('simpan', 'The new Distributor data.');
-        $request->name_distributor . ', has been successfully saved!';
-    }
+        $distributor = DB::table('distributors')->where('name_distributor', $request->name_distributor)->value('name_distributor');
+        $alamat = DB::table('distributors')->where('alamat_distributor', $request->alamat_distributor)->value('alamat_distributor');
+        $notelp = DB::table('distributors')->where('notelp_distributor', $request->notelp_distributor)->value('notelp_distributor');
 
+        if ($request->name_distributor == $distributor && $request->alamat_distributor == $alamat && $request->notelp_distributor == $notelp) {
+            return redirect()->route('distributor.create')->with('duplikat', 'Distributor ' . $request->name_distributor . ' data with address ' . $request->alamat_distributor . ' and telephone number ' . $request->notelp_distributor . ' is already in the database!')->withInput();
+        }else{
+            $data = $request->only(['name_distributor', 'alamat_distributor', 'notelp_distributor']);
+            Distributor::create($data);
+            return redirect()->route('distributor.index')->with('simpan', 'New Distributor ' . $request->name_distributor . ' has been successfully added to the database!');
+        }
+    }
     /**
      * Display the specified resource.
      */

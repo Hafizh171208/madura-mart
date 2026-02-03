@@ -120,15 +120,10 @@
                                     @foreach ($datas as $nmr => $data)
                                         <tr>
                                             <td class="text-xs font-weight-bold mb-0 ps-4">{{ $nmr + 1 . '.' }}</td>
-                                            
-                                            {{-- BAGIAN INI DIPERBAIKI (MENGGUNAKAN LOGIC CODE 2) --}}
                                             <td class="text-xs font-weight-bold mb-0">
-                                                {{-- Tombol Edit --}}
                                                 <a href="{{ route('distributor.edit', $data->id) }}" class="me-2">
                                                     <img src="{{ asset('be/assets/img/icon/edit.png') }}" alt="edit" width="20">
                                                 </a>
-
-                                                {{-- Tombol Delete (Sudah Pakai Form & Method DELETE) --}}
                                                 <form action="{{ route('distributor.destroy', $data->id) }}" method="POST" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')

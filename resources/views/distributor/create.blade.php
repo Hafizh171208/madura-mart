@@ -153,15 +153,15 @@
                                     <div class="col-12">
                                         <div class="mb-3 px-3 pt-3">
                                             <label for="name_distributor" class="form-label">Nama Distributor</label>
-                                            <input type="text" class="form-control" id="name_distributor" name="name_distributor" placeholder="Enter Distributor Name">
+                                            <input type="text" class="form-control" id="name_distributor" name="name_distributor" placeholder="Enter Distributor Name" value="{{ old('name_distributor') }}">
                                         </div>
                                         <div class="mb-3 px-3 pt-3">
                                             <label for="alamat_distributor" class="form-label">Alamat Distributor</label>
-                                            <textarea type="text" class="form-control" id="alamat_distributor" name="alamat_distributor" rows="5" placeholder="Enter Address"></textarea>
+                                            <textarea type="text" class="form-control" id="alamat_distributor" name="alamat_distributor" rows="5" placeholder="Enter Address">{{ old('alamat_distributor') }}</textarea>
                                         </div>
                                         <div class="mb-3 px-3 pt-3">
                                             <label for="notelp_distributor" class="form-label">No. Telp</label>
-                                            <input type="text" class="form-control" id="notelp_distributor" name="notelp_distributor" placeholder="Enter Phone Number">
+                                            <input type="text" class="form-control" id="notelp_distributor" name="notelp_distributor" placeholder="Enter Phone Number" value="{{ old('notelp_distributor') }}">
                                         </div>
                                     </div>
                                 </div>
@@ -245,6 +245,10 @@
                         frm.submit();
                     }
                 });
+
+                @if (session('duplikat'))
+                    swal('Duplicated Data', '{{ session('duplikat') }}', 'error');
+                @endif
             </script>
         </div>
     @endsection
