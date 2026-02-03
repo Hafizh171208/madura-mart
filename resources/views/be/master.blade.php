@@ -63,6 +63,33 @@
   @if ($title === 'Distributor')
     @yield('distributor')
   @endif
+  @if ($title === 'Client')
+    @yield('client')
+  @endif
+  @if ($title === 'Courier')
+    @yield('courier')
+  @endif
+  @if ($title === 'Delivery')
+    @yield('delivery')
+  @endif
+  @if ($title === 'Products')
+    @yield('product')
+  @endif
+  @if ($title === 'Purchase')
+    @yield('purchase')
+  @endif
+  @if ($title === 'Order')
+    @yield('order')
+  @endif
+  @if ($title === 'Sale')
+    @yield('sale')
+  @endif
+  @if ($title === 'Users')
+    @yield('user')
+  @endif
+  @if (str_contains($title, 'Reports'))
+    @yield('report')
+  @endif
   </main>   
   <div class="fixed-plugin">
     <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
@@ -320,6 +347,23 @@
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="{{asset('be/assets/js/soft-ui-dashboard.min.js?v=1.0.7')}}"></script>
+  <script>
+    @if (session('simpan'))
+      swal("Success", "{{ session('simpan') }}", "success");
+    @endif
+    @if (session('ubah'))
+      swal("Success", "{{ session('ubah') }}", "success");
+    @endif
+    @if (session('hapus'))
+      swal("Deleted", "{{ session('hapus') }}", "success");
+    @endif
+    @if (session('error'))
+      swal("Error", "{{ session('error') }}", "error");
+    @endif
+    @if (session('warning'))
+      swal("Warning", "{{ session('warning') }}", "warning");
+    @endif
+  </script>
 </body>
 
 </html>

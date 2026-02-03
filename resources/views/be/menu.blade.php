@@ -53,7 +53,7 @@
         </a>
         </li>
         <li class="nav-item">
-        <a class="nav-link  " href="../pages/tables.html">
+        <a class="nav-link @if ($title === 'Client') active @endif" href="{{route('client.index')}}">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="60px" height="60px" viewBox="0 0 18 18"><path fill-rule="evenodd" clip-rule="evenodd" d="M0.554137 13.5756C1.34525 11.476 3.36866 9.97803 5.74997 9.97803C8.13128 9.97803 10.1547 11.476 10.9458 13.5756C11.3059 14.5316 10.7272 15.5154 9.84596 15.8103C8.82613 16.1509 7.42657 16.477 5.75097 16.477C4.0754 16.477 2.67527 16.1511 1.65458 15.8105C0.771586 15.5163 0.194851 14.5312 0.554137 13.5756Z" fill="#1c1f21"></path> <path d="M12.5523 13.9774C13.9847 13.9162 15.1901 13.6251 16.096 13.3225C16.9772 13.0276 17.5559 12.0438 17.1958 11.0878C16.4047 8.98817 14.3813 7.49023 12 7.49023C10.5581 7.49023 9.24737 8.03945 8.26202 8.9389C10.147 9.65833 11.6398 11.1634 12.3495 13.0469C12.4675 13.3603 12.5329 13.6726 12.5523 13.9774Z" fill="#1c1f21" data-color="color-2"></path> <path d="M5.75 8.50049C6.99267 8.50049 8 7.49361 8 6.25049C8 5.00736 6.99267 4.00049 5.75 4.00049C4.50733 4.00049 3.5 5.00736 3.5 6.25049C3.5 7.49361 4.50733 8.50049 5.75 8.50049Z" fill="#1c1f21"></path> <path d="M12 6.00049C13.2427 6.00049 14.25 4.99361 14.25 3.75049C14.25 2.50736 13.2427 1.50049 12 1.50049C10.7573 1.50049 9.75 2.50736 9.75 3.75049C9.75 4.99361 10.7573 6.00049 12 6.00049Z" fill="#1c1f21" data-color="color-2"></path></svg>
                 <title>office</title>
@@ -73,7 +73,7 @@
         </a>
         </li>
         <li class="nav-item">
-        <a class="nav-link  " href="../pages/tables.html">
+        <a class="nav-link @if ($title === 'Courier') active @endif" href="{{route('courier.index')}}">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M25.86 23.91a1 1 0 0 0-1.72 1A6.28 6.28 0 0 1 25 28h-2v-2a1 1 0 0 0-2 0v2h-4v-5.09a6 6 0 0 0 2.28-.9 6.22 6.22 0 0 1 2.29.59 1 1 0 0 0 .86-1.81A8.22 8.22 0 0 0 19 20v-.69A7 7 0 0 0 23 13V9A7 7 0 0 0 9 9v2a1 1 0 0 0 1 1h11v1a5 5 0 0 1-3.33 4.71 1 1 0 0 0-.67 1.12 1 1 0 0 0 0 .17v1.87a4.26 4.26 0 0 1-1 .13 3.83 3.83 0 0 1-1-.14V19a1 1 0 0 0 0-.17 1 1 0 0 0-.64-1.11 5.06 5.06 0 0 1-3.05-3 1 1 0 1 0-1.88.66 6.94 6.94 0 0 0 3.6 4V20a8 8 0 0 0-8 8v1a1 1 0 0 0 1 1H26a1 1 0 0 0 1-1v-1a8.33 8.33 0 0 0-1.14-4.09zM16 4a5 5 0 0 1 4.92 4.17A11.31 11.31 0 0 0 16 7a10.9 10.9 0 0 0-4.92 1.17A5 5 0 0 1 16 4zm4.1 6h-8.21A9 9 0 0 1 16 9a9.2 9.2 0 0 1 4.1 1zm-7.38 12a6.14 6.14 0 0 0 2.28.9V28h-4v-2a1 1 0 0 0-2 0v2H7a6 6 0 0 1 5.72-6z" data-name="delivery man"/></svg>
                 <title>office</title>
@@ -93,7 +93,7 @@
         </a>
         </li>
         <li class="nav-item">
-        <a class="nav-link  " href="../pages/tables.html">
+        <a class="nav-link @if ($title === 'Delivery') active @endif" href="{{route('delivery.index')}}">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><g data-name="fast delivery"><path d="M29 9.72a1 1 0 0 0-.64-1.17L18 5.05a1 1 0 0 0-.58 0 1.42 1.42 0 0 0-.2 0H13a1 1 0 0 0 0 2h1.87L8.65 12H3a1 1 0 0 0 0 2h5.86L19 16.87v8.82L9.26 23A.75.75 0 0 0 9 23H3a1 1 0 0 0 0 2h5.87l10.87 3a.75.75 0 0 0 .26 0 1.13 1.13 0 0 0 .32-.05.89.89 0 0 0 .27-.15l8-6.18a1 1 0 0 0 .39-.79V10a.86.86 0 0 0 .02-.28zm-17.86 2.85 6.77-5.45L26.36 10l-6.51 5zM27 20.33 21 25v-8.33L27 12z"/><path d="M5 7h5a1 1 0 0 0 0-2H5a1 1 0 0 0 0 2zM10 20a1 1 0 0 0 0-2H5a1 1 0 0 0 0 2z"/></g></svg>
                 <title>office</title>
@@ -113,7 +113,7 @@
         </a>
         </li>
         <li class="nav-item">
-        <a class="nav-link  " href="../pages/billing.html">
+        <a class="nav-link @if ($title === 'Products') active @endif" href="{{route('product.index')}}">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="60px" height="60px" viewBox="0 0 18 18"><path d="M13.25,5h-3.5v2.75c0,.414-.336,.75-.75,.75s-.75-.336-.75-.75v-2.75h-3.5c-1.517,0-2.75,1.233-2.75,2.75v5.5c0,1.517,1.233,2.75,2.75,2.75H13.25c1.517,0,2.75-1.233,2.75-2.75V7.75c0-1.517-1.233-2.75-2.75-2.75ZM7.25,13.5h-2c-.414,0-.75-.336-.75-.75s.336-.75,.75-.75h2c.414,0,.75,.336,.75,.75s-.336,.75-.75,.75Z" fill="#1c1f21"></path><path d="M8.25,1.5h-2.009c-1.052,0-1.996,.586-2.464,1.529l-.348,.703c.418-.138,.857-.231,1.321-.231h3.5V1.5Z" fill="#1c1f21" data-color="color-2"></path><path d="M14.223,3.028c-.468-.942-1.412-1.528-2.464-1.528h-2.009V3.5h3.5c.464,0,.903,.093,1.322,.231l-.348-.703Z" fill="#1c1f21" data-color="color-2"></path></svg>
                 <title>credit-card</title>
@@ -133,7 +133,7 @@
         </a>
         </li>
         <li class="nav-item">
-        <a class="nav-link  " href="../pages/virtual-reality.html">
+        <a class="nav-link @if ($title === 'Purchase') active @endif" href="{{route('purchase.index')}}">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="60px" height="60px" viewBox="0 0 18 18"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.8952 2.61429C12.0034 2.59589 12.1118 2.65071 12.1612 2.74939L11.8952 2.61429ZM11.8952 2.61429L5.33339 3.73425C5.33332 3.73426 5.33345 3.73424 5.33339 3.73425C3.98557 3.96477 3 5.13263 3 6.49998C3 6.91419 2.66421 7.24998 2.25 7.24998C1.83579 7.24998 1.5 6.91419 1.5 6.49998C1.5 4.40139 3.01253 2.60926 5.08061 2.2557L11.6428 1.13567C12.4025 1.00613 13.1582 1.38928 13.5028 2.07857C13.6881 2.44905 13.5379 2.89956 13.1674 3.0848C12.7969 3.27004 12.3464 3.11987 12.1612 2.74939" fill="#1c1f21"></path> <path d="M16.5 11.5H14C13.172 11.5 12.5 10.828 12.5 10C12.5 9.172 13.172 8.5 14 8.5H16.5C17.052 8.5 17.5 8.948 17.5 9.5V10.5C17.5 11.052 17.052 11.5 16.5 11.5Z" fill="#1c1f21" data-color="color-2"></path> <path d="M16.5 13H14C12.3436 13 11 11.6564 11 10C11 8.34357 12.3436 7 14 7H16.5V6.75C16.5 5.233 15.267 4 13.75 4H4.25C2.733 4 1.5 5.233 1.5 6.75V13.25C1.5 14.767 2.733 16 4.25 16H13.75C15.267 16 16.5 14.767 16.5 13.25V13Z" fill="#1c1f21"></path></svg>    
                 <title>box-3d-50</title>
@@ -154,7 +154,7 @@
         </a>
         </li>
         <li class="nav-item">
-        <a class="nav-link  " href="../pages/rtl.html">
+        <a class="nav-link @if ($title === 'Order') active @endif" href="{{route('order.index')}}">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="60px" height="60px" viewBox="0 0 18 18"><path fill-rule="evenodd" clip-rule="evenodd" d="M1.93471 1.02242C1.53288 0.921888 1.12564 1.16614 1.0251 1.56797C0.924574 1.9698 1.16882 2.37704 1.57065 2.47757L2.92222 2.81571C3.01968 2.84001 3.09381 2.92126 3.10866 3.02216C3.43138 5.21599 3.75405 7.40943 4.07678 9.6033C3.16441 9.8903 2.50269 10.7429 2.50269 11.75C2.50269 12.9926 3.51007 14 4.75269 14H15.2527C15.6669 14 16.0027 13.6642 16.0027 13.25C16.0027 12.8358 15.6669 12.5 15.2527 12.5H4.75269C4.3385 12.5 4.00269 12.1642 4.00269 11.75C4.00269 11.3358 4.3385 11 4.75269 11C7.51908 11 10.2857 11 13.0522 11C13.788 11 14.4455 10.5397 14.697 9.848L15.9694 6.34796C16.3843 5.20655 15.5389 4 14.3246 4H4.76865L4.59268 2.80381C4.48956 2.10291 3.97341 1.53215 3.28516 1.36028L1.93471 1.02242Z" fill="#1c1f21"></path> <path d="M4.00269 17C4.55469 17 5.00269 16.552 5.00269 16C5.00269 15.448 4.55469 15 4.00269 15C3.45069 15 3.00269 15.448 3.00269 16C3.00269 16.552 3.45069 17 4.00269 17Z" fill="#1c1f21" data-color="color-2"></path> <path d="M14.0027 17C14.5547 17 15.0027 16.552 15.0027 16C15.0027 15.448 14.5547 15 14.0027 15C13.4507 15 13.0027 15.448 13.0027 16C13.0027 16.552 13.4507 17 14.0027 17Z" fill="#1c1f21" data-color="color-2"></path></svg>
                 <title>settings</title>
@@ -175,7 +175,7 @@
         </a>
         </li>
         <li class="nav-item">
-        <a class="nav-link  " href="../pages/rtl.html">
+        <a class="nav-link @if ($title === 'Sale') active @endif" href="{{route('sale.index')}}">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="60px" height="60px" viewBox="0 0 18 18"><path d="m15.8135,8.0635c-.1924,0-.3838-.0732-.5303-.2197l-5.7705-5.7705c-.0469-.0474-.1104-.0732-.1768-.0732H3.75c-.4141,0-.75-.3359-.75-.75s.3359-.75.75-.75h5.5859c.4629,0,.915.1875,1.2393.5146l5.7686,5.7686c.293.293.293.7676,0,1.0605-.1465.1465-.3379.2197-.5303.2197Z" fill="#1c1f21" stroke-width="0" data-color="color-2"></path><path d="m14.1797,9.1191l-5.1045-5.1045c-.3242-.3271-.7764-.5146-1.2393-.5146H2.25c-.4141,0-.75.3359-.75.75v5.5859c0,.4663.1816.9058.5127,1.2373l5.1064,5.1064c.5361.5361,1.2402.8042,1.9443.8042s1.4082-.2681,1.9443-.8042l3.1719-3.1719c1.0723-1.0723,1.0723-2.8164,0-3.8887Zm-8.4297-.1191c-.6904,0-1.25-.5596-1.25-1.25s.5596-1.25,1.25-1.25,1.25.5596,1.25,1.25-.5596,1.25-1.25,1.25Z" stroke-width="0" fill="#1c1f21"></path></svg>
                 <title>settings</title>
@@ -196,7 +196,7 @@
         </a>
         </li>
         <li class="nav-item">
-        <a class="nav-link  " href="../pages/rtl.html">
+        <a class="nav-link @if ($title === 'Users') active @endif" href="{{route('user.index')}}">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="60px" height="60px" viewBox="0 0 48 48"> <path d="M42.4506 40.3526L39.8459 41.4441C29.709 45.6919 18.291 45.6919 8.15405 41.4441L5.54932 40.3526L8.28977 30.459C8.81148 28.5755 10.234 26.9912 12.2023 26.4683C19.5713 24.5106 28.4286 24.5106 35.7977 26.4683C37.7659 26.9912 39.1884 28.5756 39.7102 30.459L42.4506 40.3526Z" fill="#1c1f21"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M16.159 12.5232C15.1635 7.57878 18.9711 3 24 3C29.0289 3 32.8365 7.57878 31.841 12.5232L31.099 16.2088C30.419 19.5865 27.4399 22 24 22C20.5601 22 17.581 19.5865 16.901 16.2088L16.159 12.5232Z" fill="#1c1f21" data-color="color-2"></path> </svg>
                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -219,7 +219,7 @@
         <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">REPORTS</h6>
         </li>
         <li class="nav-item">
-        <a class="nav-link  " href="../pages/profile.html">
+        <a class="nav-link @if ($title === 'Distributor Reports') active @endif" href="{{route('report.distributor')}}">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <svg width="12px" height="12px" viewBox="0 0 46 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <title>customer-support</title>
@@ -240,7 +240,7 @@
         </a>
         </li>
         <li class="nav-item">
-        <a class="nav-link  " href="../pages/sign-in.html">
+        <a class="nav-link @if ($title === 'Product Reports') active @endif" href="{{route('report.product')}}">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <svg width="12px" height="12px" viewBox="0 0 40 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <title>document</title>
@@ -260,7 +260,7 @@
         </a>
         </li>
         <li class="nav-item">
-        <a class="nav-link  " href="../pages/sign-up.html">
+        <a class="nav-link @if ($title === 'Purchase Reports') active @endif" href="{{route('report.purchase')}}">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><defs><style>.cls-1{fill:#231f20}</style></defs><g id="purchase"><path class="cls-1" d="M28.3 18H24v-3a3 3 0 0 0-6 0v3h-4.3a1.7 1.7 0 0 0-1.7 1.7v1.6a1.71 1.71 0 0 0 1.39 1.7l.18 1H4.29a.29.29 0 0 1-.29-.29V4.29A.29.29 0 0 1 4.29 4h15.42a.29.29 0 0 1 .29.29V9a1 1 0 0 0 2 0V4.29A2.3 2.3 0 0 0 19.71 2H4.29A2.3 2.3 0 0 0 2 4.29v19.42A2.3 2.3 0 0 0 4.29 26h9.63l.31 1.76A2.7 2.7 0 0 0 16.89 30H21a1 1 0 0 0 0-2h-4.11a.71.71 0 0 1-.69-.58L15.42 23h11.16l-.78 4.42a.71.71 0 0 1-.69.58 1 1 0 0 0 0 2 2.7 2.7 0 0 0 2.66-2.24l.84-4.76A1.71 1.71 0 0 0 30 21.3v-1.6a1.7 1.7 0 0 0-1.7-1.7zm-.3 2v1h-4v-1zm-14 0h4v1h-4zm6-5a1 1 0 0 1 2 0v6h-2z"/><path class="cls-1" d="M7 6a1 1 0 1 0 1 1 1 1 0 0 0-1-1zM17 6h-7a1 1 0 0 0 0 2h7a1 1 0 0 0 0-2zM7 10a1 1 0 1 0 1 1 1 1 0 0 0-1-1zM18 11a1 1 0 0 0-1-1h-7a1 1 0 0 0 0 2h7a1 1 0 0 0 1-1zM7 14a1 1 0 1 0 1 1 1 1 0 0 0-1-1zM10 14a1 1 0 0 0 0 2h5a1 1 0 0 0 0-2z"/></g></svg>
                 <title>spaceship</title>
@@ -282,7 +282,7 @@
         </a>
         </li>
         <li class="nav-item">
-        <a class="nav-link  " href="../pages/profile.html">
+        <a class="nav-link @if ($title === 'Order Reports') active @endif" href="{{route('report.order')}}">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="57px" height="57px" viewBox="0 0 48 48"> <path fill-rule="evenodd" clip-rule="evenodd" d="M24 4.81384L45.7837 16.0001L24 27.1863L2.21631 16.0001L24 4.81384Z" fill="#1c1f21"></path> <path d="M45.0002 21.314V24.6883L24.0005 35.5L3.00024 24.6911V21.317L24.0003 32.1258L45.0002 21.314Z" fill="#1c1f21" data-color="color-2"></path> <path d="M45.0002 29.314V32.6883L24.0005 43.5L3.00024 32.6911V29.317L24.0003 40.1258L45.0002 29.314Z" fill="#1c1f21" data-color="color-2"></path> </svg>
                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -302,7 +302,7 @@
         </a>
         </li>
         <li class="nav-item">
-        <a class="nav-link  " href="../pages/profile.html">
+        <a class="nav-link @if ($title === 'Sale Reports') active @endif" href="{{route('report.sale')}}">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="57px" height="57px" viewBox="0 0 18 18"><rect x="12.5" y="2" width="4" height="14" rx="1.75" ry="1.75" fill="#1c1f21"></rect><rect x="7" y="7" width="4" height="9" rx="1.75" ry="1.75" fill="#1c1f21"></rect><rect x="1.5" y="11" width="4" height="5" rx="1.75" ry="1.75" fill="#1c1f21"></rect><path d="M2.75,9.5c.192,0,.384-.073,.53-.22l4.72-4.72v.689c0,.414,.336,.75,.75,.75s.75-.336,.75-.75V2.75c0-.414-.336-.75-.75-.75h-2.5c-.414,0-.75,.336-.75,.75s.336,.75,.75,.75h.689L2.22,8.22c-.293,.293-.293,.768,0,1.061,.146,.146,.338,.22,.53,.22Z" fill="#1c1f21" data-color="color-2"></path></svg>
                 <title>customer-support</title>

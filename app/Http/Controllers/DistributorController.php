@@ -4,94 +4,91 @@ namespace App\Http\Controllers;
 
 use App\Models\Distributor;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Throwable;
 
 class DistributorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
         return view('distributor.index', [
             'title' => 'Distributor',
             'datas' => Distributor::all()
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
         return view('distributor.create', [
             'title' => 'Distributor'
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
-        $data = $request->only(['nama_distributor', 'alamat_distributor', 'notelepon_distributor']);
-        Distributor::create($data);
-        return redirect()->route('distributor.index')->with('simpan', 'The new Distributor Data, ' . $request->nama_distributor . ', has been succesfully saved');
+        try {
+            $data = $request->only(['nama_distributor', 'alamat_distributor', 'notelepon_distributor']);
+            Distributor::create($data);
+            return redirect()->route('distributor.index')->with('simpan', 'The new Distributor Data, ' . $request->nama_distributor . ', has been succesfully saved');
+        } catch (QueryException $e) {
+             if ($e->errorInfo[1] == 1062) {
+                return redirect()->back()->withInput()->with('error', 'Failed: Distributor data already exists (Duplicate).');
+            }
+            return redirect()->back()->withInput()->with('error', 'Failed to save data: ' . $e->getMessage());
+        } catch (Throwable $e) {
+            return redirect()->back()->withInput()->with('error', 'System Error: ' . $e->getMessage());
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-        
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        //
-        return view('distributor.edit', [
-            'title' => 'Distributor',
-            'data' => Distributor::findOrFail($id)
-        ]);
+        try {
+            return view('distributor.edit', [
+                'title' => 'Distributor',
+                'data' => Distributor::findOrFail($id)
+            ]);
+        } catch (ModelNotFoundException $e) {
+             return redirect()->route('distributor.index')->with('error', 'Distributor not found.');
+        } catch (Throwable $e) {
+             return redirect()->route('distributor.index')->with('error', 'Error loading data: ' . $e->getMessage());
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
-        $distributor_lama = DB::table('distributors')->where('id', $id)->value('nama_distributor');
-        $nama = DB::table('distributors')->where('nama_distributor', $request->nama_distributor)->value('nama_distributor');
-        $alamat = DB::table('distributors')->where('alamat_distributor', $request->alamat_distributor)->value('alamat_distributor');
-        $notelepon = DB::table('distributors')->where('notelepon_distributor', $request->notelepon_distributor)->value('notelepon_distributor');
-
-        if ($request->nama_distributor == $nama && $request->alamat_distributor == $alamat && $request->notelepon_distributor == $notelepon) {
-            return redirect()->route('distributor.edit', $id)->with('duplikat', 'Distributor ' . $request->nama_distributor . ' data with the same address ' . $request->alamat_distributor . ' and phone number ' . $request->notelepon_distributor . ' is already exists. Please use different data.');
-        }else{
-            //
+        try {
             $data = $request->only(['nama_distributor', 'alamat_distributor', 'notelepon_distributor']);
             $distributor = Distributor::findOrFail($id);
             $distributor->update($data);
-            return redirect()->route('distributor.index')->with('ubah', 'The Distributor Data, ' . $distributor_lama . ' become ' . $request->nama_distributor . ', has been succesfully updated');
+            return redirect()->route('distributor.index')->with('ubah', 'The Distributor Data, ' . $request->nama_distributor . ', has been succesfully updated');
+        } catch (QueryException $e) {
+             if ($e->errorInfo[1] == 1062) {
+                return redirect()->back()->withInput()->with('error', 'Failed: Distributor data already exists (Duplicate).');
+            }
+            return redirect()->back()->withInput()->with('error', 'Failed to update data: ' . $e->getMessage());
+        } catch (ModelNotFoundException $e) {
+             return redirect()->route('distributor.index')->with('error', 'Distributor not found.');
+        } catch (Throwable $e) {
+             return redirect()->back()->withInput()->with('error', 'System Error: ' . $e->getMessage());
         }
-        
-        
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        try {
+            $distributor = Distributor::findOrFail($id);
+            $distributor->delete();
+            return redirect()->route('distributor.index')->with('hapus', 'The Distributor Data has been succesfully deleted');
+        } catch (ModelNotFoundException $e) {
+             return redirect()->route('distributor.index')->with('error', 'Distributor not found or already deleted.');
+        } catch (QueryException $e) {
+            if ($e->errorInfo[1] == 1451) {
+                 return redirect()->route('distributor.index')->with('error', 'Failed: Cannot delete because data is used in Purchase transactions.');
+            }
+             return redirect()->route('distributor.index')->with('error', 'Failed to delete data: ' . $e->getMessage());
+        } catch (Throwable $e) {
+             return redirect()->route('distributor.index')->with('error', 'System Error: ' . $e->getMessage());
+        }
     }
 }
