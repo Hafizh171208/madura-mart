@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DistributorController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PurchaseController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -18,3 +19,4 @@ use App\Http\Controllers\ProductController;
 Route::resource('dashboard', DashboardController::class);
 Route::resource('distributor', DistributorController::class);
 Route::resource('products', ProductController::class);
+Route::resource('purchase', PurchaseController::class);

@@ -70,6 +70,9 @@
         @if ($title === 'Products')
             @yield('products')
         @endif
+        @if ($title === 'Purchase')
+            @yield('purchase')
+        @endif
     </main>
 
     <div class="fixed-plugin">

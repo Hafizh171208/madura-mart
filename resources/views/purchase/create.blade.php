@@ -2,7 +2,7 @@
 @section('menu')
     @include('be.menu')
 @endsection
-@section('products')
+@section('purchase')
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur"
         navbar-scroll="true">
         <div class="container-fluid py-1 px-3">
@@ -140,55 +140,76 @@
                 <div class="col-12">
                     <div class="card mb-4">
                         <div class="card-header pb-0">
-                            <h6>Edit {{ $title }} Data</h6>
+                            <h6>Add New {{ $title }} Data</h6>
                         </div>
                         <div class="card-body px-0 pt-0 pb-2">
-                            <form action="{{ route('products.update', $data->id) }}" method="POST" id="frm" enctype="multipart/form-data">
-                                @method('PUT')
+                            <form action="{{ route('purchase.store') }}" method="POST" id="frm">
                                 @csrf
                                 <div class="row ms-3 me-3">
                                     <div class="col-lg-6 col-md-6">
                                         <div class="mb-3 px-3 pt-3">
-                                            <label for="kd_barang" class="form-label">Code</label>
-                                            <input type="text" class="form-control" id="kd_barang" name="kd_barang" placeholder="Enter Product Code" value="{{ $data->kd_barang ? $data->kd_barang : old('kd_barang')}}" maxlength="15">
+                                            <label for="no_nota" class="form-label">Invoive No</label>
+                                            <input type="text" class="form-control" id="no_nota" name="no_nota" placeholder="Enter Invoice No" value="{{ old('no_nota') }}" maxlength="15">
                                         </div>
                                         <div class="mb-3 px-3 pt-3">
-                                            <label for="nama_barang" class="form-label">Name</label>
-                                            <input type="text" class="form-control" id="nama_barang" name="nama_barang" placeholder="Enter Product Name" value="{{ $data->nama_barang ? $data->nama_barang : old('nama_barang')}}" maxlength="50">
+                                            <label for="distributor" class="form-label px-3 pt-3">Distributor</label>
+                                            <select class="form-select" id="distributor" name="distributor">
+                                                <option value="">Select Distributor</option>
+                                                @foreach ($distributors as $distributor)
+                                                    <option value="{{ $distributor->id }}" 
+                                                    {{ old('distributor') == $distributor->id ? 'selected' : '' }}>
+                                                    {{ $distributor->name_distributor }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                         <div class="mb-3 px-3 pt-3">
-                                            <label for="jenis_barang" class="form-label">Type</label>
-                                            <input type="text" class="form-control" id="jenis_barang" name="jenis_barang" placeholder="Enter Product Type" value="{{ $data->jenis_barang ? $data->jenis_barang : old('jenis_barang')}}" maxlength="50">
+                                            <label for="id_barang" class="form-label px-3 pt-3">Product</label>
+                                            <select class="form-select" id="id_barang" name="id_barang">
+                                                <option value="">Select Product</option>
+                                                @foreach ($products as $product)
+                                                    <option value="{{ $product->id }}" 
+                                                    {{ old('id_barang') == $product->id ? 'selected' : '' }}>
+                                                    {{ $product->nama_barang }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                         <div class="mb-3 px-3 pt-3">
-                                            <label for="tgl_expired" class="form-label">Expired Date</label>
-                                            <input type="date" class="form-control" id="tgl_expired" name="tgl_expired" placeholder="Enter Expired Date" value="{{ $data->tgl_expired ? $data->tgl_expired : old('tgl_expired') }}">
+                                            <label for="harga_beli" class="form-label">Purchase Price</label>
+                                            <input type="text" class="form-control" id="harga_beli" name="harga_beli" placeholder="Enter Purchase Price" value="{{ old('harga_beli') ? old('harga_beli') : 0 }}">
+                                        </div>
+                                        <div class="mb-3 px-3 pt-3">
+                                            <label for="margin_jual" class="form-label">Selling Margin</label>
+                                            <input type="text" class="form-control" id="margin_jual" name="margin_jual" placeholder="Enter Selling Margin" value="{{ old('margin_jual') ? old('margin_jual') : 0 }}">
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6">
                                         <div class="mb-3 px-3 pt-3">
-                                            <label for="harga_jual" class="form-label">Price</label>
-                                            <input type="text" class="form-control" id="harga_jual" name="harga_jual" placeholder="Enter Product Price" value="{{ old('harga_jual') ? old(harga_jual) : 0 }}" readonly>
+                                            <label for="tgl_nota" class="form-label">Invoice Date</label>
+                                            <input type="date" class="form-control" id="tgl_nota" name="tgl_nota" placeholder="Enter Invoice Date" value="{{ old('tgl_nota') }}">
                                         </div>
                                         <div class="mb-3 px-3 pt-3">
-                                            <label for="stok" class="form-label">Stock</label>
-                                            <input type="text" class="form-control" id="stok" name="stok" placeholder="Enter Product Stock" value="{{ old('stok') ? old(stok) : 0 }}" readonly>
+                                            <label for="harga_jual" class="form-label">Selling Price</label>
+                                            <input type="text" class="form-control" id="harga_jual" name="harga_jual" placeholder="Enter Selling Price" value="{{ old('harga_jual') ? old('harga_jual') : 0 }}" readonly>
                                         </div>
                                         <div class="mb-3 px-3 pt-3">
-                                            <label for="foto_barang" class="form-label">Image</label>
-                                            <input type="file" class="form-control" id="foto_barang" name="foto_barang" placeholder="Enter Product Image" value="{{ old('foto_barang') }}">
-                                            @if ($data->foto_barang)
-                                                <small class="text-muted d-block mt-2">Current Image:</small>
-                                                <img src="{{ asset('storage/' . $data->foto_barang) }}" alt="Current Image" width="100" class="mt-2">
-                                            @endif
+                                            <label for="jumlah_beli" class="form-label">Purchase Amount</label>
+                                            <input type="text" class="form-control" id="jumlah_beli" name="jumlah_beli" placeholder="Enter Purchase Amount" value="{{ old('jumlah_beli') ? old('jumlah_beli') : 0 }}">
+                                        </div>
+                                        <div class="mb-3 px-3 pt-3">
+                                            <label for="subtotal" class="form-label">Sub total</label>
+                                            <input type="text" class="form-control" id="subtotal" name="subtotal" placeholder="Enter Sub total" value="{{ old('subtotal') ? old('subtotal') : 0 }}" readonly>
+                                        </div>
+                                        <div class="mb-3 px-3 pt-3">
+                                            <label for="total_bayar" class="form-label">Total Pay</label>
+                                            <input type="text" class="form-control" id="total_bayar" name="total_bayar" placeholder="Enter Total Pay" value="{{ old('total_bayar') ? old('total_bayar') : 0 }}" readonly>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row ms-3 me-3 mt-3">
                                     <div class="col-12">
                                         <div class="px-3 pb-3 text-end">
-                                            <a href="{{ route('products.index') }}" class="btn bg-gradient-secondary me-3">Cancel</a>
-                                            <button type="button" id="simpan" class="btn bg-gradient-primary"> Update {{ $title }} Data </button>
+                                            <a href="{{ route('purchase.index') }}" class="btn bg-gradient-secondary me-3">Cancel</a>
+                                            <button type="button" id="simpan" class="btn bg-gradient-primary"> Save New {{ $title }} Data </button>
                                         </div>
                                     </div>
                                 </div>
@@ -267,6 +288,11 @@
                     else if(tgl_expired.value.trim() === ''){
                         tgl_expired.focus();
                         swal("Invalid!", "Expired Date cannot be empty", "error");
+                        return;
+                    }
+                    else if(foto_barang.value.trim() === ''){
+                        foto_barang.focus();
+                        swal("Invalid!", "Product Image cannot be empty", "error");
                         return;
                     }
                     else{
