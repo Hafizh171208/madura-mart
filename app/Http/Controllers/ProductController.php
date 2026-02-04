@@ -8,6 +8,8 @@ use App\Models\Product;
 
 use Illuminate\Support\Facades\DB;
 
+use Illuminate\Support\Facades\Storage;
+
 class ProductController extends Controller
 {
     /**
@@ -64,7 +66,10 @@ class ProductController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return view('products.edit', [
+            'title' => 'Products',
+            'data' => Product::findOrFail($id)
+        ]);
     }
 
     /**
@@ -72,7 +77,20 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $nama_lama = DB::table('products')->where('id', $id)->value('nama_barang');
+        $foto_barang_lama = DB::table('products')->where('id', $id)->value('foto_barang');
+        $product = Product::findOrFail($id);
+        if($request->hasFile('foto_barang')){
+            $data = $request->all();
+            $data['foto_barang'] = $request->file('foto_barang')->store('product-images');
+            Storage::delete($foto_barang_lama);
+            $product->update($data);
+            return redirect()->route('products.index')->with('update', 'The Product data, ' . $nama_lama . ' has been successfully updated!');
+        }
+        else{
+            $product->update($request->all());
+            return redirect()->route('products.index')->with('update', 'The Product data, ' . $nama_lama . ' has been successfully updated!');
+        }
     }
 
     /**
@@ -80,6 +98,13 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $ada_purchases = DB::table('purchases_details')->where('id_barang', $id)->exists();
+        if ($ada_purchases) {
+            return redirect()->route('products.index')->with('forbidden', 'The Product data cannot be deleted because it is still associated with existing purchase_details records!');
+        } else {
+            $nama = DB::table('products')->where('id', $id)->value('nama_barang');
+            Product::findOrFail($id)->delete();
+            return redirect()->route('products.index')->with('hapus', 'The Product data, ' . $nama . ' has been successfully deleted!');
+        }
     }
 }

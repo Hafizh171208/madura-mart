@@ -140,28 +140,29 @@
                 <div class="col-12">
                     <div class="card mb-4">
                         <div class="card-header pb-0">
-                            <h6>Add New {{ $title }} Data</h6>
+                            <h6>Edit {{ $title }} Data</h6>
                         </div>
                         <div class="card-body px-0 pt-0 pb-2">
-                            <form action="{{ route('products.store') }}" method="POST" id="frm" enctype="multipart/form-data">
+                            <form action="{{ route('products.update', $data->id) }}" method="POST" id="frm" enctype="multipart/form-data">
+                                @method('PUT')
                                 @csrf
                                 <div class="row ms-3 me-3">
                                     <div class="col-lg-6 col-md-6">
                                         <div class="mb-3 px-3 pt-3">
                                             <label for="kd_barang" class="form-label">Code</label>
-                                            <input type="text" class="form-control" id="kd_barang" name="kd_barang" placeholder="Enter Product Code" value="{{ old('kd_barang') }}" maxlength="15">
+                                            <input type="text" class="form-control" id="kd_barang" name="kd_barang" placeholder="Enter Product Code" value="{{ $data->kd_barang ? $data->kd_barang : old('kd_barang')}}" maxlength="15">
                                         </div>
                                         <div class="mb-3 px-3 pt-3">
                                             <label for="nama_barang" class="form-label">Name</label>
-                                            <input type="text" class="form-control" id="nama_barang" name="nama_barang" placeholder="Enter Product Name" value="{{ old('nama_barang') }}" maxlength="50">
+                                            <input type="text" class="form-control" id="nama_barang" name="nama_barang" placeholder="Enter Product Name" value="{{ $data->nama_barang ? $data->nama_barang : old('nama_barang')}}" maxlength="50">
                                         </div>
                                         <div class="mb-3 px-3 pt-3">
                                             <label for="jenis_barang" class="form-label">Type</label>
-                                            <input type="text" class="form-control" id="jenis_barang" name="jenis_barang" placeholder="Enter Product Type" value="{{ old('jenis_barang') }}" maxlength="50">
+                                            <input type="text" class="form-control" id="jenis_barang" name="jenis_barang" placeholder="Enter Product Type" value="{{ $data->jenis_barang ? $data->jenis_barang : old('jenis_barang')}}" maxlength="50">
                                         </div>
                                         <div class="mb-3 px-3 pt-3">
                                             <label for="tgl_expired" class="form-label">Expired Date</label>
-                                            <input type="date" class="form-control" id="tgl_expired" name="tgl_expired" placeholder="Enter Expired Date" value="{{ old('tgl_expired') }}">
+                                            <input type="date" class="form-control" id="tgl_expired" name="tgl_expired" placeholder="Enter Expired Date" value="{{ $data->tgl_expired ? $data->tgl_expired : old('tgl_expired') }}">
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6">
@@ -175,7 +176,7 @@
                                         </div>
                                         <div class="mb-3 px-3 pt-3">
                                             <label for="foto_barang" class="form-label">Image</label>
-                                            <input type="file" class="form-control" id="foto_barang" name="foto_barang" placeholder="Enter Product Image" value="{{ old('foto_barang') }}">
+                                            <input type="file" class="form-control" id="foto_barang" name="foto_barang" placeholder="Enter Product Image">
                                         </div>
                                     </div>
                                 </div>
@@ -183,7 +184,7 @@
                                     <div class="col-12">
                                         <div class="px-3 pb-3 text-end">
                                             <a href="{{ route('products.index') }}" class="btn bg-gradient-secondary me-3">Cancel</a>
-                                            <button type="button" id="simpan" class="btn bg-gradient-primary"> Save New {{ $title }} Data </button>
+                                            <button type="button" id="simpan" class="btn bg-gradient-primary"> Update {{ $title }} Data </button>
                                         </div>
                                     </div>
                                 </div>
@@ -262,11 +263,6 @@
                     else if(tgl_expired.value.trim() === ''){
                         tgl_expired.focus();
                         swal("Invalid!", "Expired Date cannot be empty", "error");
-                        return;
-                    }
-                    else if(foto_barang.value.trim() === ''){
-                        foto_barang.focus();
-                        swal("Invalid!", "Product Image cannot be empty", "error");
                         return;
                     }
                     else{

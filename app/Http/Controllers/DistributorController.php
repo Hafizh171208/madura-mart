@@ -94,8 +94,13 @@ class DistributorController extends Controller
      */
     public function destroy(string $id)
     {
-        $distributor = Distributor::findOrFail($id);
-        $distributor->delete();
-        return redirect()->route('distributor.index')->with('hapus', 'The Distributor data, ' . $distributor->name_distributor . ' has been successfully deleted!');
+        $ada_purchases = DB::table('purchases')->where('id_distributor', $id)->exists();
+        if ($ada_purchases) {
+            return redirect()->route('distributor.index')->with('forbidden', 'The Distributor data cannot be deleted because it is still associated with existing purchase records!');
+        } else {
+            $nama = DB::table('distributors')->where('id', $id)->value('name_distributor');
+            Distributor::findOrFail($id)->delete();
+            return redirect()->route('distributor.index')->with('hapus', 'The Distributor data, ' . $nama . ' has been successfully deleted!');
+        }
     }
 }

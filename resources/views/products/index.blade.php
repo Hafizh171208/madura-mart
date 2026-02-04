@@ -138,10 +138,16 @@
                                                 <a href="{{ route('products.edit', $data->id) }}">
                                                     <img src="{{ asset('be/assets/img/icon/edit.png') }}" width="18">
                                                 </a>
-                                                <a href="#" onclick="hapus(event, this)"
-                                                data-url="{{ route('products.destroy', $data->id) }}">
-                                                    <img src="{{ asset('be/assets/img/icon/trash.png') }}" width="18">
-                                                </a>
+                                                <form action="{{ route('products.destroy', $data->id) }}"
+                                                    method="POST"
+                                                    onsubmit="return hapus(event)"
+                                                    style="display:inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" style="border:none; background:none;">
+                                                        <img src="{{ asset('be/assets/img/icon/trash.png') }}" width="18">
+                                                    </button>
+                                                </form>
                                             </div>
                                         </td>
                                     </tr>
@@ -223,19 +229,18 @@
         @endif
     </script>
     <script>
-        function hapus(e, el) {
+        function hapus(e) {
             e.preventDefault();
+
             Swal.fire({
                 title: 'Are you sure?',
                 text: "Once deleted, you will not be able to recover this data!",
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonClass: 'btn-danger',
-                confirmButtonText: 'Yes, delete it!',
-                closeOnConfirm: true
+                confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    el.closest("form").submit();
+                    e.target.submit();
                 }
             });
         }
@@ -246,6 +251,13 @@
                 icon: 'success',
                 title: 'Deleted!',
                 text: '{{ session('hapus') }}'
+            });
+        @endif
+        @if (session('forbidden'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Forbidden!',
+                text: '{{ session('forbidden') }}'
             });
         @endif
     </script>
