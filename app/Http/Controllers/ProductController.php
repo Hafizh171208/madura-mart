@@ -37,7 +37,7 @@ class ProductController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
+    {   
         $kd = DB::table('products')->where('kd_barang', $request->kd_barang)->value('kd_barang');
         $nama = DB::table('products')->where('nama_barang', $request->nama_barang)->value('nama_barang');
 
@@ -98,7 +98,7 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        $ada_purchases = DB::table('purchases_details')->where('id_barang', $id)->exists();
+        $ada_purchases = DB::table('purchase__details')->where('id_barang', $id)->exists();
         if ($ada_purchases) {
             return redirect()->route('products.index')->with('forbidden', 'The Product data cannot be deleted because it is still associated with existing purchase_details records!');
         } else {

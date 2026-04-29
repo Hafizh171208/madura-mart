@@ -61,6 +61,7 @@
 
     </aside>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+
         @if ($title === 'Dashboard')
             @yield('dashboard')
         @endif
@@ -72,6 +73,12 @@
         @endif
         @if ($title === 'Purchase')
             @yield('purchase')
+        @endif
+        @if ($title === 'Sale')
+            @yield('sale')
+        @endif
+        @if ($title === 'User')
+            @yield('user')
         @endif
     </main>
 

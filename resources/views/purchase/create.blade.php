@@ -143,27 +143,29 @@
                             <h6>Add New {{ $title }} Data</h6>
                         </div>
                         <div class="card-body px-0 pt-0 pb-2">
-                            <form action="{{ route('purchase.store') }}" method="POST" id="frm">
+                            <form id="form" action="{{ route('purchase.store') }}" method="POST">                                
                                 @csrf
                                 <div class="row ms-3 me-3">
                                     <div class="col-lg-6 col-md-6">
-                                        <div class="mb-3 px-3 pt-3">
+                                        <div class="mb-3">
                                             <label for="no_nota" class="form-label">Invoive No</label>
-                                            <input type="text" class="form-control" id="no_nota" name="no_nota" placeholder="Enter Invoice No" value="{{ old('no_nota') }}" maxlength="15">
+                                            <input type="text" class="form-control" id="no_nota" name="no_nota" placeholder="Enter Invoice No" value="@if(isset(session('data')->no_nota)) {{ session('data')->no_nota }} @endif" maxlength="15">
                                         </div>
-                                        <div class="mb-3 px-3 pt-3">
-                                            <label for="distributor" class="form-label px-3 pt-3">Distributor</label>
-                                            <select class="form-select" id="distributor" name="distributor">
+                                        <div class="mb-3">
+                                            <label for="distributor" class="form-label">Distributor</label>
+                                            <select class="form-select" id="distributor" name="id_distributor">
                                                 <option value="">Select Distributor</option>
                                                 @foreach ($distributors as $distributor)
                                                     <option value="{{ $distributor->id }}" 
-                                                    {{ old('distributor') == $distributor->id ? 'selected' : '' }}>
+                                                    @if (isset(session('data')->id_distributor) && session('data')->id_distributor == $distributor->id) 
+                                                        selected 
+                                                    @endif>
                                                     {{ $distributor->name_distributor }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="mb-3 px-3 pt-3">
-                                            <label for="id_barang" class="form-label px-3 pt-3">Product</label>
+                                        <div class="mb-3">
+                                            <label for="id_barang" class="form-label">Product</label>
                                             <select class="form-select" id="id_barang" name="id_barang">
                                                 <option value="">Select Product</option>
                                                 @foreach ($products as $product)
@@ -173,35 +175,35 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="mb-3 px-3 pt-3">
+                                        <div class="mb-3">
                                             <label for="harga_beli" class="form-label">Purchase Price</label>
                                             <input type="text" class="form-control" id="harga_beli" name="harga_beli" placeholder="Enter Purchase Price" value="{{ old('harga_beli') ? old('harga_beli') : 0 }}">
                                         </div>
-                                        <div class="mb-3 px-3 pt-3">
+                                        <div class="mb-3">
                                             <label for="margin_jual" class="form-label">Selling Margin</label>
                                             <input type="text" class="form-control" id="margin_jual" name="margin_jual" placeholder="Enter Selling Margin" value="{{ old('margin_jual') ? old('margin_jual') : 0 }}">
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6">
-                                        <div class="mb-3 px-3 pt-3">
+                                        <div class="mb-3">
                                             <label for="tgl_nota" class="form-label">Invoice Date</label>
-                                            <input type="date" class="form-control" id="tgl_nota" name="tgl_nota" placeholder="Enter Invoice Date" value="{{ old('tgl_nota') }}">
+                                            <input type="date" class="form-control" id="tgl_nota" name="tgl_nota" placeholder="Enter Invoice Date" value="@if(isset(session('data')->tgl_nota)) {{session('data')->tgl_nota}} @endif">
                                         </div>
-                                        <div class="mb-3 px-3 pt-3">
+                                        <div class="mb-3">
                                             <label for="harga_jual" class="form-label">Selling Price</label>
                                             <input type="text" class="form-control" id="harga_jual" name="harga_jual" placeholder="Enter Selling Price" value="{{ old('harga_jual') ? old('harga_jual') : 0 }}" readonly>
                                         </div>
-                                        <div class="mb-3 px-3 pt-3">
+                                        <div class="mb-3">
                                             <label for="jumlah_beli" class="form-label">Purchase Amount</label>
                                             <input type="text" class="form-control" id="jumlah_beli" name="jumlah_beli" placeholder="Enter Purchase Amount" value="{{ old('jumlah_beli') ? old('jumlah_beli') : 0 }}">
                                         </div>
-                                        <div class="mb-3 px-3 pt-3">
+                                        <div class="mb-3">
                                             <label for="subtotal" class="form-label">Sub total</label>
                                             <input type="text" class="form-control" id="subtotal" name="subtotal" placeholder="Enter Sub total" value="{{ old('subtotal') ? old('subtotal') : 0 }}" readonly>
                                         </div>
-                                        <div class="mb-3 px-3 pt-3">
+                                        <div class="mb-3">
                                             <label for="total_bayar" class="form-label">Total Pay</label>
-                                            <input type="text" class="form-control" id="total_bayar" name="total_bayar" placeholder="Enter Total Pay" value="{{ old('total_bayar') ? old('total_bayar') : 0 }}" readonly>
+                                            <input type="text" class="form-control" id="total_bayar" name="total_bayar" placeholder="Enter Total Pay" value="{{ old('total_bayar') ? old('total_bayar') : 0 }}" disabled>
                                         </div>
                                     </div>
                                 </div>
@@ -259,49 +261,200 @@
             <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
             <script>
                 let btnSimpan = document.getElementById('simpan');
-                let frm = document.getElementById('frm');
-                let kd_barang = document.getElementById('kd_barang');
-                let nama_barang = document.getElementById('nama_barang');
-                let jenis_barang = document.getElementById('jenis_barang');
-                let tgl_expired = document.getElementById('tgl_expired');
+                let form = document.getElementById('form');
+                let no_nota = document.getElementById('no_nota');
+                let distributor = document.getElementById('distributor');
+                let id_barang = document.getElementById('id_barang');
+                let tgl_nota = document.getElementById('tgl_nota');
+                let harga_beli = document.getElementById('harga_beli');
+                let margin_jual = document.getElementById('margin_jual');
                 let harga_jual = document.getElementById('harga_jual');
-                let stok = document.getElementById('stok');
-                let foto_barang = document.getElementById('foto_barang');
-
+                let jumlah_beli = document.getElementById('jumlah_beli');
+                let subtotal = document.getElementById('subtotal');
+                let total_bayar = document.getElementById('total_bayar');
                 btnSimpan.addEventListener('click', function() {
-                    
-                    if(kd_barang.value.trim() === ''){
-                        kd_barang.focus();
-                        swal("Invalid!", "Product Code cannot be empty", "error");
-                        return;
+                    if(no_nota.value.trim() === '') {
+                        no_nota.focus();
+                        swal("Invalid!", "No Invoice Cannot Be Empty!", "error");
                     }
-                    else if(nama_barang.value.trim() === ''){
-                        nama_barang.focus();
-                        swal("Invalid!", "Product Name cannot be empty", "error");
-                        return;
+                    else if(distributor.value.trim() === '') {
+                        distributor.focus();
+                        swal("Invalid!", "You have to choose the Distributor!", "error");
                     }
-                    else if(jenis_barang.value.trim() === ''){
-                        jenis_barang.focus();
-                        swal("Invalid!", "Product Type cannot be empty", "error");
-                        return;
+                    else if(id_barang.value.trim() === '') { 
+                        id_barang.focus();
+                        swal("Invalid!", "You have to choose the Product!", "error");
                     }
-                    else if(tgl_expired.value.trim() === ''){
-                        tgl_expired.focus();
-                        swal("Invalid!", "Expired Date cannot be empty", "error");
-                        return;
+                    else if(tgl_nota.value.trim() === '') {
+                        tgl_nota.focus();
+                        swal("Invalid!", "Purchase Date Cannot Be Empty!", "error");
                     }
-                    else if(foto_barang.value.trim() === ''){
-                        foto_barang.focus();
-                        swal("Invalid!", "Product Image cannot be empty", "error");
-                        return;
+                    else if(harga_beli.value.trim() === '') {
+                        harga_beli.focus();
+                        swal("Invalid!", "Purchase Price Cannot Be Empty!", "error");
                     }
-                    else{
-                        frm.submit();
+                    else if(margin_jual.value.trim() === '') {
+                        margin_jual.focus();
+                        swal("Invalid!", "Selling Margin Cannot Be Empty!", "error");
+                    }
+                    else if(harga_jual.value.trim() === '') {
+                        harga_jual.focus();
+                        swal("Invalid!", "Selling Price Cannot Be Empty!", "error");
+                    }
+                    else if(jumlah_beli.value.trim() === '') {
+                        jumlah_beli.focus();
+                        swal("Invalid!", "Purchase Amount Cannot Be Empty!", "error");
+                    }
+                    else if(subtotal.value.trim() === '') {
+                        subtotal.focus();
+                        swal("Invalid!", "Subtotal Cannot Be Empty!", "error");
+                    }
+                    else if(total_bayar.value.trim() === '') {
+                        total_bayar.focus();
+                        swal("Invalid!", "Total Pay Cannot Be Empty!", "error");
+                    }
+                    else {
+                        form.submit();
                     }
                 });
 
-                @if (session('duplikat'))
-                    swal('Duplicated Data', '{{ session('duplikat') }}', 'error');
+                function hanyaAngka(evt) {
+                    var charCode = (evt.which) ? evt.which : evt.keyCode;
+                    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                        evt.preventDefault();
+                    } else {
+                        return true;
+                    }
+                };
+
+                harga_beli.addEventListener('keypress', hanyaAngka);
+                margin_jual.addEventListener('keypress', hanyaAngka);
+                jumlah_beli.addEventListener('keypress', hanyaAngka);
+
+                harga_beli.addEventListener('focus', function() {
+                    if(harga_beli.value.trim() === '0') {
+                        harga_beli.value = '';
+                    }
+                });
+
+                harga_beli.addEventListener('blur', function() {
+                    if(harga_beli.value.trim() === '') {
+                        harga_beli.value = '0';
+                    }
+                });
+
+                margin_jual.addEventListener('focus', function() {
+                    if(margin_jual.value.trim() === '0') {
+                        margin_jual.value = '';
+                    }
+                });
+
+                margin_jual.addEventListener('blur', function() {
+                    if(margin_jual.value.trim() === '') {
+                        margin_jual.value = '0';
+                    }
+                });
+
+                jumlah_beli.addEventListener('focus', function() {
+                    if(jumlah_beli.value.trim() === '0') {
+                        jumlah_beli.value = '';
+                    }
+                });
+
+                jumlah_beli.addEventListener('blur', function() {
+                    if(jumlah_beli.value.trim() === '') {
+                        jumlah_beli.value = '0';
+                    }
+                });
+
+                function hargaJual(hrg_beli, margin) {
+                    return hrg_beli + (hrg_beli * (margin / 100));
+                };
+                
+                function subTotal(hrg_beli, jml_beli) {
+                    return hrg_beli * jml_beli;
+                };
+
+                function totalBayar(l) {
+                    let total_bayar_lama;
+                    @if(isset(session('data')->total_bayar))
+                        total_bayar_lama = parseInt({{ session('data')->total_bayar }});
+                    @else
+                        total_bayar_lama = 0;
+                    @endif
+                    return total_bayar.value = parseInt(total_bayar_lama) + parseInt(subtotal.value);
+                };
+
+                harga_beli.addEventListener('keyup',  function() {
+                if(harga_beli.value.trim() === '') {
+                    harga_jual.value = hargaJual(0, parseInt(margin_jual.value));
+                }
+                else {
+                    harga_jual.value = hargaJual(parseInt(harga_beli.value), parseInt(margin_jual.value));
+                }
+                });
+
+                margin_jual.addEventListener('keyup',  function() {
+                if(margin_jual.value.trim() === '') {
+                    harga_jual.value = hargaJual(parseInt(harga_beli.value), 0);
+                }
+                else {
+                    harga_jual.value = hargaJual(parseInt(harga_beli.value), parseInt(margin_jual.value));
+                }
+                });
+
+                harga_beli.addEventListener('keyup', function() {
+                    if(harga_beli.value == '') {
+                        subtotal.value = subTotal(0, parseInt(jumlah_beli.value));
+                        totalBayar.value = totalBayar();
+                    }
+                    else {
+                        subtotal.value = subTotal(parseInt(harga_beli.value), parseInt(jumlah_beli.value));
+                        @if(isset(session('data')->total_bayar))
+                            total_bayar.value = parseInt({{ session('data')->total_bayar }}) + parseInt(subtotal.value);
+                        @else
+                            total_bayar.value = totalBayar();
+                        @endif
+                    }
+                });
+
+                jumlah_beli.addEventListener('keyup', function() {
+                    if(jumlah_beli.value == '') {
+                        subtotal.value = subTotal(parseInt(harga_beli.value), 0);
+                        totalBayar.value = totalBayar();
+                    }
+                    else {
+                        subtotal.value = subTotal(parseInt(harga_beli.value), parseInt(jumlah_beli.value));
+                        @if(isset(session('data')->total_bayar))
+                            total_bayar.value = parseInt({{ session('data')->total_bayar }}) + parseInt(subtotal.value);
+                        @else
+                            total_bayar.value = totalBayar();
+                        @endif
+                    }
+                });
+                    
+                @if (session('success'))
+                    swal({
+                        title: "Success!",
+                        text: "{{ session('success') }}",
+                        type: "info",
+                        showCancelButton: true,
+                        confirmButtonClass: "btn-info",
+                        confirmButtonText: "Add new item purchase data!",
+                        cancelButtonText: "Back to purchase list!"
+                        cancelButtonClass: "btn-secondary",
+                        closeOnConfirm: true,
+                    },
+                function(isConfirm) {
+                    if(isConfirm) {
+                        no_nota.disabled = true;
+                        tgl_nota.disabled = true;
+                        distributor.disabled = true;
+                    }
+                    else {
+                        window.location.href = "{{ route('purchase.index') }}";
+                    }
+                });
                 @endif
             </script>
         </div>

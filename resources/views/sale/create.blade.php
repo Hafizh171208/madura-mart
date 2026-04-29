@@ -2,7 +2,7 @@
 @section('menu')
     @include('be.menu')
 @endsection
-@section('purchase')
+@section('sale')
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur"
         navbar-scroll="true">
         <div class="container-fluid py-1 px-3">
@@ -15,7 +15,7 @@
             </nav>
             <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                 {{-- <div class="d-flex align-items-center">
-                    <a href="{{ route('purchase.create') }}" class="btn bg-gradient-dark w-100 my-4 mb-4"> Add new {{ $title }}</a>
+                    <a href="{{ route('distributor.create') }}" class="btn bg-gradient-dark w-100 my-4 mb-4"> Add new Distributor</a>
                 <div> --}}
                 <div class="ms-md-auto pe-md-3 d-flex align-items-center">
                     <div class="input-group">
@@ -139,12 +139,71 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card mb-4">
-                    <div class="card-header pb-0 d-flex justify-content-between align-items-center">
-                            <h6>{{ $title }} Data</h6>
-                            <a href="{{ route('purchase.create') }}" class="btn btn-primary btn-sm mb-0"> Add New {{ $title }}</a>
+                        <div class="card-header pb-0">
+                            {{-- <h6>Add New {{ $title }} Data</h6> --}}
+                            <input type="text" class="form-control fs-1 fw-bold bg-primary text-white text-center" id="total_bayar" name="total_bayar" placeholder="Enter Total Pay" value="@if(isset(session('data')->total_bayar)) {{ session('data')->total_bayar }}@else{{ old('total_bayar') ? old('total_bayar') : 'Rp 0' }} @endif" disabled>
                         </div>
-                        <div class="card-body px-0 pt-0 pb-2">
-                        <div class="table-responsive">
+                        <div class="card-body px-0 pt-0 pb-0 border border-2 border-primary border-radius-lg mt-3 ms-4 me-4">
+                            <form id="form" action="{{ route('sale.store') }}" method="POST">    
+                                @csrf
+                                <div class="row ms-3 me-3">
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="mb-3">
+                                            <label for="no_struk" class="form-label">Invoive No</label>
+                                            <input type="text" class="form-control" id="no_struk" name="no_struk" value="{{ $no_struk }}" maxlength="255" readonly>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="id_barang" class="form-label">Product</label>
+                                            <select class="form-select" id="id_barang" name="id_barang">
+                                                <option value="">Select Product</option>
+                                                @foreach ($products as $product)
+                                                    <option data-harga-jual="{{ $product->harga_jual }}" value="{{ $product->id }}" 
+                                                    {{ old('id_barang') == $product->id ? 'selected' : '' }}>
+                                                    {{ $product->nama_barang }}
+                                                </option>
+                                                
+                                                @endforeach 
+                                            </select>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="mb-3">
+                                            <label for="harga_jual" class="form-label">Selling Price</label>
+                                            <input type="text" class="form-control" id="harga_jual" name="harga_jual"  value="{{ old('harga_jual') ? old('harga_jual') : 'Rp 0' }}" readonly>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="jumlah_jual" class="form-label">Selling Amount</label>
+                                            <input type="text" class="form-control" id="jumlah_jual" name="jumlah_jual"  value="{{ old('jumlah_jual') ? old('jumlah_jual') : 0 }}">
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                            <label for="subtotal" class="form-label fs-1">Sub total</label>
+                                            <input type="text" class="form-control fs-1 fw-bold bg-info text-blue-400 " id="subtotal" name="subtotal" placeholder="Enter Sub total" value="{{ old('subtotal') ? old('subtotal') : 'Rp 0' }}" readonly>
+                                        </div>
+                                </div>
+                                <div class="row ms-3 me-3 mt-3">
+                                    <div class="col-12">
+                                        <div class="px-3 pb-3 text-end">
+                                            <a href="{{ route('sale.index') }}" class="btn bg-gradient-secondary me-3">Cancel</a>
+                                            <button type="button" id="simpan" class="btn bg-gradient-primary"> Save New {{ $title }} Data </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card mb-4">
+                        <div class="card-header pb-0">
+                            <h6>Sales Data</h6>
+                        </div>
+                        <div class="card-body px-0 pt-0 pb-2 border border-2 border-primary border-radius-lg mt-3 mb-3 ms-4 me-4">
+                            <div class="table-responsive p-0">
                         <table class="table align-items-center mb-0">
                     <thead>
                     <tr>
@@ -180,18 +239,16 @@
                         <td class="text-uppercase text-xs text-secondary mb-0 ps-4">{{$data->jenis_barang}}</td>
                         <td class="text-uppercase text-xs text-secondary mb-0 ps-4">{{$data->tgl_expired}}</td>
                         <td class="text-uppercase text-xs text-secondary mb-0 ps-4">{{$data->stok}}</td>                          <td class="text-uppercase text-xs text-secondary mb-0 ps-4">Rp. {{number_format($data->harga_jual, 0, ',', '.')}}</td>
-                        <td class="text-uppercase text-xs text-secondary mb-0 ps-4">Rp. {{number_format($data->harga_beli, 0, ',', '.')}}</td>
-                        <td class="text-uppercase text-xs text-secondary mb-0 ps-4">{{$data->margin_jual}}</td>
+                        <td class="text-uppercase text-xs text-secondary mb-0 ps-4">Rp. {{number_format($data->harga_jual, 0, ',', '.')}}</td>
                         <td class="text-uppercase text-xs text-secondary mb-0 ps-4">{{$data->jumlah_beli}}</td>
                         <td class="text-uppercase text-xs text-secondary mb-0 ps-4">Rp. {{number_format($data->subtotal, 0, ',', '.')}}</td>
                         <td class="text-uppercase text-xs text-secondary mb-0 ps-4">Rp. {{number_format($data->total_bayar, 0, ',', '.')}}</td>
                         <td class="text-uppercase text-xs text-secondary mb-0 ps-4">
-                            <a href="{{ route('purchase.edit', $data->id_purchases) }}"><img src="{{asset('be/assets/img/icon/edit.png')}}" alt="" width="20"></a>
-                            <a href="{{ route('purchase.destroy', $data->id_purchases) }}" onclick="hapus(event, this)"><img src="{{asset('be/assets/img/icon/trash.png')}}" alt="gambar sampah" width="20" class="cursor-pointer me-2" title="delete"></a>
+                            <a href="{{ route('sale.edit', $data->id_purchases) }}"><img src="{{asset('be/assets/img/icon/edit.png')}}" alt="" width="20"></a>
+                            <a href="{{ route('sale.destroy', $data->id_purchases) }}" onclick="hapus(event, this)"><img src="{{asset('be/assets/img/icon/trash.png')}}" alt="gambar sampah" width="20" class="cursor-pointer me-2" title="delete"></a>
                         </td>
                     </tr>
-                    {{-- Modal Foto Produk --}}
-                     <div class="modal fade" id="staticBackdrop{{ $data->id_purchases }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel{{ $data->id_purchases }}" aria-hidden="true">
+                    <div class="modal fade" id="staticBackdrop{{ $data->id_purchases }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel{{ $data->id_purchases }}" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                             <div class="modal-header">
@@ -208,13 +265,13 @@
                         </div>
                         </div>
                     @endforeach
-                  </tbody>
+                    </tbody>
                 </table>
-              </div>
                         </div>
                     </div>
                 </div>
             </div>
+
             <footer class="footer pt-3  ">
                 <div class="container-fluid">
                     <div class="row align-items-center justify-content-lg-between">
@@ -256,49 +313,129 @@
             <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
             <script>
                 let btnSimpan = document.getElementById('simpan');
-                let frm = document.getElementById('frm');
-                let kd_barang = document.getElementById('kd_barang');
-                let nama_barang = document.getElementById('nama_barang');
-                let jenis_barang = document.getElementById('jenis_barang');
-                let tgl_expired = document.getElementById('tgl_expired');
+                let form = document.getElementById('form');
+                let no_struk = document.getElementById('no_struk');
+                let id_barang = document.getElementById('id_barang');
                 let harga_jual = document.getElementById('harga_jual');
-                let stok = document.getElementById('stok');
-                let foto_barang = document.getElementById('foto_barang');
+                let jumlah_jual = document.getElementById('jumlah_jual');
+                let subtotal = document.getElementById('subtotal');
+                let total_bayar = document.getElementById('total_bayar');
 
+                const rupiah = (number) => {
+                    return new Intl.NumberFormat("id-ID", {
+                        style: "currency",
+                        currency: "IDR",
+                        minimumFractionDigits: 0
+                    }).format(number);
+                }
+                
                 btnSimpan.addEventListener('click', function() {
-                    
-                    if(kd_barang.value.trim() === ''){
-                        kd_barang.focus();
-                        swal("Invalid!", "Product Code cannot be empty", "error");
-                        return;
+                    if(id_barang.value.trim() === '') {
+                        id_barang.focus();
+                        swal("Invalid!", "You have to choose the Product!", "error");
                     }
-                    else if(nama_barang.value.trim() === ''){
-                        nama_barang.focus();
-                        swal("Invalid!", "Product Name cannot be empty", "error");
-                        return;
+                    else if(jumlah_jual.value.trim() === '') {
+                        jumlah_jual.focus();
+                        swal("Invalid!", "Selling Amount Cannot Be Empty!", "error");
                     }
-                    else if(jenis_barang.value.trim() === ''){
-                        jenis_barang.focus();
-                        swal("Invalid!", "Product Type cannot be empty", "error");
-                        return;
-                    }
-                    else if(tgl_expired.value.trim() === ''){
-                        tgl_expired.focus();
-                        swal("Invalid!", "Expired Date cannot be empty", "error");
-                        return;
-                    }
-                    else if(foto_barang.value.trim() === ''){
-                        foto_barang.focus();
-                        swal("Invalid!", "Product Image cannot be empty", "error");
-                        return;
-                    }
-                    else{
-                        frm.submit();
+                    else {
+                        form.submit();
                     }
                 });
 
-                @if (session('duplikat'))
-                    swal('Duplicated Data', '{{ session('duplikat') }}', 'error');
+                function hanyaAngka(evt) {
+                    var charCode = (evt.which) ? evt.which : evt.keyCode;
+                    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                        evt.preventDefault();
+                    } else {
+                        return true;
+                    }
+                };
+
+                jumlah_jual.addEventListener('keypress', hanyaAngka);
+
+                jumlah_jual.addEventListener('focus', function() {
+                    if(jumlah_jual.value.trim() === '0') {
+                        jumlah_jual.value = '';
+                    }
+                });
+
+                jumlah_jual.addEventListener('blur', function() {
+                    if(jumlah_jual.value.trim() === '') {
+                        jumlah_jual.value = '0';
+                    }
+                });
+                function subTotal(hrg_beli, jml_beli) {
+                    return hrg_beli * jml_beli;
+                };
+
+                id_barang.addEventListener('change', function() {
+                    let selectedOption = id_barang.options[id_barang.selectedIndex];
+                    let hargaJual = selectedOption.getAttribute('data-harga-jual');
+                    harga_jual.value = rupiah(hargaJual);
+                    if (jumlah_jual.value.trim() === '' || jumlah_jual.value.trim() === '0') {
+                        subtotal.value = rupiah(subTotal(parseInt(harga_jual.value.replace(/[^0-9]/g, '')), 0));
+                        total_bayar.value = rupiah(totalBayar());
+                    }
+                    else {
+                        subtotal.value = rupiah(subTotal(parseInt(harga_jual.value.replace(/[^0-9]/g, '')), parseInt(jumlah_jual.value)));
+                        @if (isset(session('data')->total_bayar))
+                            total_bayar.value = rupiah(parseInt({{ session('data')->total_bayar }}) + parseInt(subtotal.value.replace(/[^0-9]/g, '')));
+                        @else
+                            total_bayar.value = subtotal.value;
+                        @endif
+                        }
+                });
+
+                function totalBayar(l) {
+                    let total_bayar_lama;
+                    @if(isset(session('data')->total_bayar))
+                        total_bayar_lama = parseInt({{ session('data')->total_bayar }});
+                    @else
+                        total_bayar_lama = 0;
+                    @endif
+                    return total_bayar.value = parseInt(total_bayar_lama) + parseInt(subtotal.value.replace(/[^0-9]/g, ''));
+                };
+
+                
+
+                jumlah_jual.addEventListener('keyup', function() {
+                    if(jumlah_jual.value == '') {
+                        subtotal.value = rupiah(subTotal(parseInt(harga_jual.value.replace(/[^0-9]/g, '')), 0));
+                        totalBayar.value = rupiah(totalBayar());
+                    }
+                    else {
+                        subtotal.value = rupiah(subTotal(parseInt(harga_jual.value.replace(/[^0-9]/g, '')), parseInt(jumlah_jual.value)));
+                        @if(isset(session('data')->total_bayar))
+                            total_bayar.value = rupiah(parseInt({{ session('data')->total_bayar }}) + parseInt(subtotal.value.replace(/[^0-9]/g, '')));
+                        @else
+                            total_bayar.value = subtotal.value;
+                        @endif
+                    }
+                });
+                    
+                @if (session('success'))
+                    swal({
+                        title: "Success!",
+                        text: "{{ session('success') }}",
+                        type: "info",
+                        showCancelButton: true,
+                        confirmButtonClass: "btn-info",
+                        confirmButtonText: "Add new item purchase data!",
+                        cancelButtonText: "Back to purchase list!"
+                        cancelButtonClass: "btn-secondary",
+                        closeOnConfirm: true,
+                    },
+                function(isConfirm) {
+                    if(isConfirm) {
+                        no_struk.disabled = true;
+                        tgl_nota.disabled = true;
+                        distributor.disabled = true;
+                    }
+                    else {
+                        window.location.href = "{{ route('purchase.index') }}";
+                    }
+                });
                 @endif
             </script>
         </div>
